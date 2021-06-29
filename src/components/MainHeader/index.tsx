@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
 import { Container, Profile, Welcome, UserName } from "./styles";
-import emojis from "../../Utils/Emojis";
+import emojis from "../../utils/Emojis";
 import Toogle from "../Toogle";
 
 const MainHeader: React.FC = () => {
