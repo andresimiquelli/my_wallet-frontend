@@ -6,6 +6,7 @@ import SelectInput from "../../components/SelectInput";
 
 import WalletCard from "../../components/WalletCard";
 import MessageBox from "../../components/MessageBox";
+import PieChart from "../../components/PieChart";
 
 import {listOfMonths} from "../../utils/Months";
 import {listOfYears} from "../../utils/Years";
@@ -14,6 +15,7 @@ import gains from "../../repository/gains";
 
 import happyImg from "../../assets/happy.svg";
 import sadImg from "../../assets/sad.svg";
+import grinning from "../../assets/grinning.svg";
 
 const Dashboard: React.FC = () => {
 
@@ -57,7 +59,6 @@ const Dashboard: React.FC = () => {
     },[totalGains, totalExpenses]);
 
     const message = useMemo(() => {
-
         let result = {
             title: "",
             description: "",
@@ -71,9 +72,9 @@ const Dashboard: React.FC = () => {
             result.description = "Infelizmente, você não se saiu bem este mês."
             result.footerText = "Mantenha controle sobre seus gastos. O endividamento é uma das maiores causas de sucídio.";
         }else{
-            if(totalBalance < (totalGains*0.20)){
-                result.title = "Bom trabalho!";
-                result.icon = happyImg;
+            if(totalBalance < (totalGains*0.30)){
+                result.title = "Ufa!";
+                result.icon = grinning;
                 result.description = "Sua carteira está com saldo positivo, mas foi raspando."
                 result.footerText = "Não relaxe tanto assim, estude como pode aprimorar seu controle de gastos para sobrar mais no fim do mês.";
             }else{
@@ -83,9 +84,31 @@ const Dashboard: React.FC = () => {
                 result.footerText = "Continue assim e sua vida financeira ficará cada vez melhor. Já pode planejar aquela viagem do fim do ano.";
             }
         }
-
         return result
     },[totalBalance]);
+
+    const relationExpensesPerGains = useMemo(() => {
+        const total = totalGains+totalExpenses;
+        const percentGains = (totalGains/total)*100;
+        const percentExpenses = (totalExpenses/total)*100;
+
+        const data = [
+            {
+                title: "Receitas",
+                value: totalGains,
+                percent: percentGains,
+                color: "#f7931b"
+            },
+            {
+                title: "Despesas",
+                value: totalExpenses,
+                percent: percentExpenses,
+                color: "#e44c4e"
+            },
+        ]
+
+        return data
+    }, [totalBalance]);
 
     return (
         <Container>
@@ -130,6 +153,11 @@ const Dashboard: React.FC = () => {
                     description={message.description}
                     footerText={message.footerText}
                     icon={message.icon}
+                />
+
+                <PieChart 
+                    title={"Relação"}
+                    data={relationExpensesPerGains}
                 />
             </Content>
         </Container>
