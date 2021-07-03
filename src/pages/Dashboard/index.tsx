@@ -5,16 +5,87 @@ import ContentHeader from "../../components/ContentHeader";
 import SelectInput from "../../components/SelectInput";
 
 import WalletCard from "../../components/WalletCard";
+import MessageBox from "../../components/MessageBox";
 
 import {listOfMonths} from "../../utils/Months";
 import {listOfYears} from "../../utils/Years";
 import expenses from "../../repository/expenses";
 import gains from "../../repository/gains";
 
+import happyImg from "../../assets/happy.svg";
+import sadImg from "../../assets/sad.svg";
+
 const Dashboard: React.FC = () => {
 
     const [monthSelected, setMonthSelected] = useState<number>(new Date().getMonth()+1);
     const [yearSelected, setYearSelected] = useState<number>(new Date().getFullYear());
+
+    const totalExpenses = useMemo(() => {
+        let total: number = 0;
+
+        expenses.forEach(item => {
+            const date = new Date(item.date);
+            const year = date.getFullYear();
+            const month = date.getMonth()+1;
+
+            if(month === monthSelected && year === yearSelected){
+                total += Number(item.amount);
+            }
+        });
+
+        return total;
+    },[monthSelected, yearSelected]);
+
+    const totalGains = useMemo(() => {
+        let total: number = 0;
+
+        gains.forEach(item => {
+            const date = new Date(item.date);
+            const year = date.getFullYear();
+            const month = date.getMonth()+1;
+
+            if(month === monthSelected && year === yearSelected){
+                total += Number(item.amount);
+            }
+        });
+
+        return total;
+    },[monthSelected, yearSelected]);
+
+    const totalBalance = useMemo(() => {
+        return totalGains-totalExpenses;
+    },[totalGains, totalExpenses]);
+
+    const message = useMemo(() => {
+
+        let result = {
+            title: "",
+            description: "",
+            icon: "",
+            footerText: ""
+        }
+
+        if(totalBalance < 0){
+            result.title = "Cuidado!";
+            result.icon = sadImg;
+            result.description = "Infelizmente, você não se saiu bem este mês."
+            result.footerText = "Mantenha controle sobre seus gastos. O endividamento é uma das maiores causas de sucídio.";
+        }else{
+            if(totalBalance < (totalGains*0.20)){
+                result.title = "Bom trabalho!";
+                result.icon = happyImg;
+                result.description = "Sua carteira está com saldo positivo, mas foi raspando."
+                result.footerText = "Não relaxe tanto assim, estude como pode aprimorar seu controle de gastos para sobrar mais no fim do mês.";
+            }else{
+                result.title = "Parabéns!";
+                result.icon = happyImg;
+                result.description = "Você está fazendo um ótimo trabalho."
+                result.footerText = "Continue assim e sua vida financeira ficará cada vez melhor. Já pode planejar aquela viagem do fim do ano.";
+            }
+        }
+
+        return result
+    },[totalBalance]);
 
     return (
         <Container>
@@ -32,7 +103,7 @@ const Dashboard: React.FC = () => {
             <Content>
                 <WalletCard 
                     title="Saldo"
-                    amount={150.5}
+                    amount={totalBalance}
                     footerLabel="Atualizado com base nas receitas e despesas"
                     icon="dollarSign"
                     color="#4e41f0"
@@ -40,7 +111,7 @@ const Dashboard: React.FC = () => {
 
                 <WalletCard 
                     title="Receitas"
-                    amount={5000.0}
+                    amount={totalGains}
                     footerLabel="Atualizado com base nas receitas e despesas"
                     icon="arrowUp"
                     color="#f7931b"
@@ -48,10 +119,17 @@ const Dashboard: React.FC = () => {
 
                 <WalletCard 
                     title="Despesas"
-                    amount={4850.0}
+                    amount={totalExpenses}
                     footerLabel="Atualizado com base nas receitas e despesas"
                     icon="arrowDown"
                     color="#e44c4e"
+                />
+
+                <MessageBox 
+                    title={message.title}
+                    description={message.description}
+                    footerText={message.footerText}
+                    icon={message.icon}
                 />
             </Content>
         </Container>
