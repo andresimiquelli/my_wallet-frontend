@@ -7,6 +7,7 @@ import SelectInput from "../../components/SelectInput";
 import WalletCard from "../../components/WalletCard";
 import MessageBox from "../../components/MessageBox";
 import PieChart from "../../components/PieChart";
+import HistoryBox from "../../components/HistoryBox";
 
 import {listOfMonths} from "../../utils/Months";
 import {listOfYears} from "../../utils/Years";
@@ -110,6 +111,46 @@ const Dashboard: React.FC = () => {
         return data
     }, [totalBalance]);
 
+    const historyData = useMemo(() => {
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+
+        return listOfMonths.map((month,index) => {            
+            let amountGains: number = 0;
+            gains.forEach((item) => {
+                let date = new Date(item.date);
+                let month = date.getMonth();
+                let year = date.getFullYear();
+
+                if(month === index && year === yearSelected){
+                    amountGains += Number(item.amount);
+                }
+            });
+
+            let amountExpenses: number = 0;
+            expenses.forEach((item) => {
+                let date = new Date(item.date);
+                let month = date.getMonth();
+                let year = date.getFullYear();
+
+                if(month === index && year === yearSelected){
+                    amountExpenses += Number(item.amount);
+                }
+            });
+
+            return {
+                month: month.label.substring(0,3),
+                monthNumber: month.value,
+                amountGains: amountGains,
+                amountExpenses: amountExpenses
+            }
+        }).filter(item => {
+            return (yearSelected === currentYear && item.monthNumber <= currentMonth) || (yearSelected < currentYear)
+        })
+    },[yearSelected]);
+
     return (
         <Container>
             <ContentHeader title="Dashboard" lineColor="#f7931b">
@@ -159,6 +200,8 @@ const Dashboard: React.FC = () => {
                     title={"Relação"}
                     data={relationExpensesPerGains}
                 />
+
+                <HistoryBox data={historyData} lineColorExpenses="#e44c4e" lineColorGains="#f7931b"/>
             </Content>
         </Container>
     )
