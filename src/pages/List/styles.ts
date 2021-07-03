@@ -20,6 +20,7 @@ export const Filters = styled.div`
         font-weight: 500;
         background: none;
         color: ${props => props.theme.colors.white};
+        opacity: .4;
 
         margin: 0 10px;
 
@@ -48,5 +49,9 @@ export const Filters = styled.div`
             width: 55px;
             margin: 0 auto;
         }
+    }
+
+    .tag-active{
+        opacity: 1;
     }
 `;
