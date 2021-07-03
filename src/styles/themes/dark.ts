@@ -1,4 +1,4 @@
-export default {
+const theme = {
     title: 'dark',
     colors: {
         primary: '#1b1f38',
@@ -12,3 +12,5 @@ export default {
         warning: '#e44c4e'
     },
 }
+
+export default theme;

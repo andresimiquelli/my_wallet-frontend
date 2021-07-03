@@ -33,7 +33,7 @@ export const Filters = styled.div`
     .tag-filter-recurrent{
         &::after{
             content: '';
-            border-bottom: 7px solid ${props => props.theme.colors.warning};
+            border-bottom: 7px solid ${props => props.theme.colors.success};
             display: block;
             width: 55px;
             margin: 0 auto;
@@ -43,7 +43,7 @@ export const Filters = styled.div`
     .tag-filter-eventual{
         &::after{
             content: '';
-            border-bottom: 7px solid ${props => props.theme.colors.success};
+            border-bottom: 7px solid ${props => props.theme.colors.warning};
             display: block;
             width: 55px;
             margin: 0 auto;

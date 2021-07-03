@@ -11,6 +11,7 @@ import { useState } from "react";
 
 import {formatCurrency} from "../../utils/formatCurrency";
 import {formatDate} from "../../utils/formatDate";
+import listOfMonths from "../../utils/Months";
 
 interface IData{
     id: number,
@@ -32,6 +33,8 @@ interface IRouteParams {
 const List: React.FC<IRouteParams> = ({match}) => {
 
     const [data, setData] = useState<IData[]>([]);
+    const [monthSelected, setMonthSelected] = useState<string>(String(new Date().getMonth()+1));
+    const [yearSelected, setYearSelected] = useState<string>(String(new Date().getFullYear()));
 
     const {type} = match.params;
     const title = useMemo(() => {
@@ -44,17 +47,18 @@ const List: React.FC<IRouteParams> = ({match}) => {
         };
     }, [type]);
 
-    const months = [
-        {value: 7, label: "Julho"},
-        {value: 8, label: "Agosto"},
-        {value: 9, label: "Setembro"}
-    ];
-
     const years = [
+        {value: 2020, label: "2020"},
         {value: 2021, label: "2021"},
         {value: 2022, label: "2022"},
         {value: 2023, label: "2023"}
     ];
+
+    const months = useMemo(() => {
+        return listOfMonths.map((month, index) => {
+            return {value: index+1, label: month}
+        });
+    },[]);
 
     const listData = useMemo(() => {
         return type === "income" ? gains : expenses;
@@ -62,9 +66,18 @@ const List: React.FC<IRouteParams> = ({match}) => {
 
     //Hook UseEffect é disparado, uma única vez se não houver vínculo, quando a tela é carregada.
     useEffect(() => {
+
+        const filtered = listData.filter(item => {
+            const date = new Date(item.date);
+            const month = String(date.getMonth()+1);
+            const year = String(date.getFullYear());
+
+            return month === monthSelected && year === yearSelected
+        });
+
         var index = 0;
-        const response = listData.map(item => {
-            index++;
+        const response = filtered.map(item => {
+             index++;
             return {
                 id: index,
                 description: item.description,
@@ -76,13 +89,13 @@ const List: React.FC<IRouteParams> = ({match}) => {
         });
 
         setData(response);
-    },[]);
+    },[monthSelected, yearSelected]);
 
     return (
         <Container>
             <ContentHeader title={title.text} lineColor={title.color}>
-                <SelectInput options={months}/>
-                <SelectInput options={years}/>
+                <SelectInput options={months} onChange={(e) => setMonthSelected(e.target.value)} defaultValue={monthSelected}/>
+                <SelectInput options={years} onChange={(e) => setYearSelected(e.target.value)} defaultValue={yearSelected}/>
             </ContentHeader>
 
             <Filters>
