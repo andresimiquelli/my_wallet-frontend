@@ -14,3 +14,7 @@ const months = [
 ];
 
 export default months;
+
+export const listOfMonths = months.map((month, index) => {
+    return {value: index+1, label: month}
+});

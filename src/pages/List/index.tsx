@@ -11,7 +11,8 @@ import { useState } from "react";
 
 import {formatCurrency} from "../../utils/formatCurrency";
 import {formatDate} from "../../utils/formatDate";
-import listOfMonths from "../../utils/Months";
+import {listOfMonths} from "../../utils/Months";
+import {listOfYears} from "../../utils/Years";
 
 interface IData{
     id: number,
@@ -41,25 +42,12 @@ const List: React.FC<IRouteParams> = ({match}) => {
     const title = useMemo(() => {
         return type === "income" ? {
             text: "Receitas",
-            color: "#F7931B"
+            color: "#4e41f0"
         } : {
             text: "Despesas",
             color: "#E44C4E"
         };
     }, [type]);
-
-    const years = [
-        {value: 2020, label: "2020"},
-        {value: 2021, label: "2021"},
-        {value: 2022, label: "2022"},
-        {value: 2023, label: "2023"}
-    ];
-
-    const months = useMemo(() => {
-        return listOfMonths.map((month, index) => {
-            return {value: index+1, label: month}
-        });
-    },[]);
 
     const listData = useMemo(() => {
         return type === "income" ? gains : expenses;
@@ -105,8 +93,8 @@ const List: React.FC<IRouteParams> = ({match}) => {
     return (
         <Container>
             <ContentHeader title={title.text} lineColor={title.color}>
-                <SelectInput options={months} onChange={(e) => setMonthSelected(Number(e.target.value))} defaultValue={monthSelected}/>
-                <SelectInput options={years} onChange={(e) => setYearSelected(Number(e.target.value))} defaultValue={yearSelected}/>
+                <SelectInput options={listOfMonths} onChange={(e) => setMonthSelected(Number(e.target.value))} defaultValue={monthSelected}/>
+                <SelectInput options={listOfYears} onChange={(e) => setYearSelected(Number(e.target.value))} defaultValue={yearSelected}/>
             </ContentHeader>
 
             <Filters>
