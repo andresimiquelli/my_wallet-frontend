@@ -8,6 +8,7 @@ import WalletCard from "../../components/WalletCard";
 import MessageBox from "../../components/MessageBox";
 import PieChart from "../../components/PieChart";
 import HistoryBox from "../../components/HistoryBox";
+import BarChart from "../../components/BarChart";
 
 import {listOfMonths} from "../../utils/Months";
 import {listOfYears} from "../../utils/Years";
@@ -97,19 +98,98 @@ const Dashboard: React.FC = () => {
             {
                 title: "Receitas",
                 value: totalGains,
-                percent: percentGains,
+                percent: percentGains ? percentGains : 0,
                 color: "#f7931b"
             },
             {
                 title: "Despesas",
                 value: totalExpenses,
-                percent: percentExpenses,
+                percent: percentExpenses ? percentExpenses : 0,
                 color: "#e44c4e"
             },
         ]
 
         return data
     }, [totalBalance]);
+
+    const relationExpensesRecurrentPerEventual = useMemo(() => {
+        let amountRecurrent = 0;
+        let amountEventual = 0;
+
+        expenses.filter((expense) => {
+            const date = new Date(expense.date);
+            const year = date.getFullYear();
+            const month = date.getMonth()+1;
+
+            return month === monthSelected && year === yearSelected;
+        }).forEach((expense) => {
+            if(expense.frequency === "recorrente"){
+                return amountRecurrent += Number(expense.amount);
+            }
+
+            if(expense.frequency === "eventual"){
+                return amountEventual += Number(expense.amount);
+            }
+        })
+
+        let total = amountRecurrent+amountEventual;
+        let percentEventual = Number(((amountEventual/total)*100).toFixed(0));
+        let percentRecurrent = Number(((amountRecurrent/total)*100).toFixed(0));
+
+        return [
+            {
+                title: "Recorrentes",
+                amount: amountRecurrent,
+                percent: percentRecurrent ? percentRecurrent : 0,
+                color: "#f7931b"
+            },
+            {
+                title: "Eventuais",
+                amount: amountEventual,
+                percent: percentEventual ? percentEventual : 0,
+                color: "#4e41f0"
+            }
+        ]
+    },[monthSelected, yearSelected]);
+
+    const relationGainsRecurrentPerEventual = useMemo(() => {
+        let amountRecurrent = 0;
+        let amountEventual = 0;
+
+        gains.filter((gain) => {
+            const date = new Date(gain.date);
+            const year = date.getFullYear();
+            const month = date.getMonth()+1;
+
+            return month === monthSelected && year === yearSelected;
+        }).forEach((gain) => {
+            if(gain.frequency === "recorrente"){
+                return amountRecurrent += Number(gain.amount);
+            }
+
+            if(gain.frequency === "eventual"){
+                return amountEventual += Number(gain.amount);
+            }
+        })
+
+        let total = amountRecurrent+amountEventual;
+        let percentEventual = Number(((amountEventual/total)*100).toFixed(0));
+        let percentRecurrent = Number(((amountRecurrent/total)*100).toFixed(0));
+        return [
+            {
+                title: "Recorrentes",
+                amount: amountRecurrent,
+                percent: percentRecurrent? percentRecurrent : 0,
+                color: "#f7931b"
+            },
+            {
+                title: "Eventuais",
+                amount: amountEventual,
+                percent: percentEventual? percentEventual : 0,
+                color: "#4e41f0"
+            }
+        ]
+    },[monthSelected, yearSelected]);
 
     const historyData = useMemo(() => {
         const currentDate = new Date();
@@ -202,6 +282,10 @@ const Dashboard: React.FC = () => {
                 />
 
                 <HistoryBox data={historyData} lineColorExpenses="#e44c4e" lineColorGains="#f7931b"/>
+
+                <BarChart title="Receitas" data={relationGainsRecurrentPerEventual}/>
+                <BarChart title="Despesas" data={relationExpensesRecurrentPerEventual}/>
+                
             </Content>
         </Container>
     )
