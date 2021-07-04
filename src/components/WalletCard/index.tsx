@@ -28,7 +28,7 @@ const WalletCard: React.FC<IWalletCard> = (props) => {
             default:
                 return dollasSignImg;
         }
-    },[])
+    },[props.icon])
 
     return (
         <Container color={props.color}>

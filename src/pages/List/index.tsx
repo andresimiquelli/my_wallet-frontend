@@ -56,7 +56,7 @@ const List: React.FC<IRouteParams> = ({match}) => {
     const filterByFrequency = (frequency: string) => {
         const alreadySelected = frequencySelected.findIndex(item => item === frequency);
         if(alreadySelected >= 0){
-            const filtered = frequencySelected.filter(item => item != frequency);
+            const filtered = frequencySelected.filter(item => item !== frequency);
             setFrequencySelected(filtered);
         }else{
             setFrequencySelected((prev) => [...prev, frequency]);
@@ -88,7 +88,7 @@ const List: React.FC<IRouteParams> = ({match}) => {
         });
 
         setData(response);
-    },[monthSelected, yearSelected, frequencySelected]);
+    },[monthSelected, yearSelected, frequencySelected, listData]);
 
     return (
         <Container>

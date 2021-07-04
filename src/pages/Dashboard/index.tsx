@@ -87,7 +87,7 @@ const Dashboard: React.FC = () => {
             }
         }
         return result
-    },[totalBalance]);
+    },[totalBalance, totalGains]);
 
     const relationExpensesPerGains = useMemo(() => {
         const total = totalGains+totalExpenses;
@@ -110,7 +110,7 @@ const Dashboard: React.FC = () => {
         ]
 
         return data
-    }, [totalBalance]);
+    }, [totalExpenses, totalGains]);
 
     const relationExpensesRecurrentPerEventual = useMemo(() => {
         let amountRecurrent = 0;
