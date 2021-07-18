@@ -24,26 +24,55 @@ export const Title = styled.h3`
     margin-left: 10px;
 `;
 
-export const MenuContainer = styled.div`
+export const MenuContainer = styled.ul`
     display: flex;
     flex-direction: column;
     margin-top: 50px;
 `;
 
-export const MenuItem = styled.a`
+export const MenuItem = styled.li`
+    list-style: none;
     color: ${props => props.theme.colors.info};
-    text-decoration: none;
     margin: 7px 0%;
-    transition: opacity .3s;
-    &:hover{
-        opacity: .6;
+
+    > a {
+        color: ${props => props.theme.colors.info};
+        text-decoration: none;
+
+        transition: opacity .3s;
+
+        &:hover{
+            opacity: .6;
+        }
+
+        display: flex;
+        align-items: center;
+
+        > svg{
+            font-size: 1.5rem;
+            margin-right: 5px;
+        }
     }
 
-    display: flex;
-    align-items: center;
+    > button {
+        font-size: 1rem;
+        color: ${props => props.theme.colors.info};
+        text-decoration: none;
 
-    > svg{
-        font-size: 1.5rem;
-        margin-right: 5px;
+        background: none;
+
+        transition: opacity .3s;
+
+        &:hover{
+            opacity: .6;
+        }
+
+        display: flex;
+        align-items: center;
+
+        > svg{
+            font-size: 1.5rem;
+            margin-right: 5px;
+        }
     }
 `;

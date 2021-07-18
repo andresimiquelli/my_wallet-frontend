@@ -3,16 +3,23 @@ import React from "react";
 import { Container, ToogleLabel, ToogleSelector } from "./styles";
 
 
-const Toogle: React.FC = () => (
+interface IToogleProps {
+    labelLeft: string;
+    labelRight: string;
+    checked: boolean;
+    onChange(): void;
+}
+
+const Toogle: React.FC<IToogleProps> = ( props ) => (
     <Container>
-        <ToogleLabel>Light</ToogleLabel>
+        <ToogleLabel>{props.labelLeft}</ToogleLabel>
         <ToogleSelector 
-            checked
+            checked={props.checked}
             uncheckedIcon={false}
             checkedIcon={false}
-            onChange={() => console.log("Changed")}
+            onChange={props.onChange}
         />
-        <ToogleLabel>Dark</ToogleLabel>
+        <ToogleLabel>{props.labelRight}</ToogleLabel>
     </Container>
 );
 

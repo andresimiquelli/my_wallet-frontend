@@ -1,10 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { Container, Header, LogoImg, Title, MenuContainer, MenuItem } from "./styles";
 import logoSvg from "../../assets/logo.svg";
 import { MdDashboard, MdArrowDownward, MdArrowUpward, MdExitToApp} from "react-icons/md";
+import { useAuth } from "../../hooks/auth";
 
 const Aside: React.FC = () => {
+    const { logout } = useAuth();
+
     return (
         <Container>
             <Header>
@@ -13,17 +17,25 @@ const Aside: React.FC = () => {
             </Header>
 
             <MenuContainer>
-                <MenuItem href="/dashboard">
-                    <MdDashboard/> Dashboard
+                <MenuItem>
+                    <Link to="/">
+                        <MdDashboard/> Dashboard
+                    </Link>
                 </MenuItem>
-                <MenuItem href="/list/income">
-                    <MdArrowUpward/> Receitas
+                <MenuItem>
+                    <Link to="/list/income">
+                        <MdArrowUpward/> Receitas
+                    </Link>
                 </MenuItem>
-                <MenuItem href="/list/exes">
-                    <MdArrowDownward/> Despesas
+                <MenuItem>
+                    <Link to="/list/exes">
+                        <MdArrowDownward/> Despesas
+                    </Link>
                 </MenuItem>
-                <MenuItem href="#">
-                    <MdExitToApp/> Sair
+                <MenuItem>
+                    <button onClick={logout}>
+                            <MdExitToApp/> Sair
+                    </button>
                 </MenuItem>
             </MenuContainer>
         </Container>
