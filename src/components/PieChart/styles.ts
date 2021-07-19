@@ -16,6 +16,11 @@ export const Container = styled.div`
     border-radius: 7px;
 
     display: flex;
+    align-items: center;
+
+    @media(max-width: 770px){
+       width: 100%;
+    }
 `;
 
 export const SideLeft = styled.aside`
@@ -44,6 +49,10 @@ export const LegendContainer = styled.ul`
     ::-webkit-scrollbar-track{
         background-color: ${props => props.theme.colors.tertiary};
     }
+
+    @media(max-width: 411px){
+        height: 130px;
+    }
 `;
 
 export const Legend = styled.li<ILegendProps>`
@@ -66,11 +75,27 @@ export const Legend = styled.li<ILegendProps>`
 
     > span {
         margin-left: 5px;
-    } 
+    }
+
+    @media(max-width: 411px){
+        > div {
+            font-size: .8rem;
+            line-height: 30px;
+            width: 40px;
+            height: 30px;
+            border-radius: 5px;
+        }
+
+        > span {
+            font-size: .8rem;
+        }
+    }
 `;
 
 export const SideRight = styled.main`
     display: flex;
     flex: 1;
     justify-content: center;
+
+    height: 80%;
 `;

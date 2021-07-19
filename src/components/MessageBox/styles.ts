@@ -14,6 +14,10 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @media(max-width: 770px){
+       width: 100%;
+    }
 `;
 
 export const Header = styled.header`
@@ -26,5 +30,19 @@ export const Header = styled.header`
 
     > p {
         font-size: 1rem;
+    }
+
+    @media(max-width: 770px){
+        h1 {
+            font-size: 1.7rem;
+
+            > img {
+                width: 23px;
+            }
+        }
+
+        > p {
+            font-size: 1.3rem;
+        }
     }
 `;

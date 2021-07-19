@@ -15,6 +15,12 @@ export const Container = styled.div`
     border-radius: 7px;
 
     display: flex;
+
+    @media(max-width: 768px){
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 export const SideLeft = styled.div`
@@ -29,6 +35,10 @@ export const LegendContainer = styled.ul`
     list-style: none;
     display: flex;
     flex-direction: column;
+
+    @media(max-width: 768px){
+        flex-direction: row;
+    }
 `;
 
 export const Legend = styled.li<ILegend>`
@@ -50,10 +60,27 @@ export const Legend = styled.li<ILegend>`
     > span {
         padding-left: 10px;
     }
+
+    @media(max-width: 768px){
+        > div {
+            font-size: .8rem;
+        }
+
+        > span {
+            font-size: .7rem;
+        }
+
+        margin-right: 10px;
+    }
 `;
 
 export const SideRight = styled.div`
     flex: 1;
     height: 100%;
     padding: 30px 20px;
+
+    @media(max-width: 768px){
+        width: 100%;
+        height: 140px;
+    }
 `; 

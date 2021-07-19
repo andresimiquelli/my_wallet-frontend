@@ -30,6 +30,13 @@ export const Header = styled.header`
     > h2 {
         font-size: 1rem;
     }
+
+    @media(max-width: 768px){
+        flex-direction: column;
+        > h2 {
+            margin-bottom: 20px;
+        }
+    }
 `;
 
 export const ChartContainer = styled.div`
@@ -41,6 +48,10 @@ export const LegendContainer = styled.ul`
     list-style: none;
     display: flex;
     margin-right: 10px;
+
+    @media(max-width: 768px){
+        font-size: .8rem;
+    }
 `;
 
 export const Legend = styled.li<ILegend>`
@@ -52,5 +63,13 @@ export const Legend = styled.li<ILegend>`
         background-color: ${props => props.color};
         border-radius: 7px;
         margin: 0 10px;
+    }
+
+    @media(max-width: 768px){
+        > div {
+            width: 23px;
+            height: 23px;
+            border-radius: 3px;
+        }
     }
 `;

@@ -40,4 +40,45 @@ export const Container = styled.div<IContainerProps>`
         position: absolute;
         bottom: 10px;
     }
+
+    @media(max-width: 770px){
+        > span {
+            font-size: .9rem;
+        }
+
+        > h1 {
+            font-size: 1rem;
+
+            > strong {
+                display: inline-block;
+                width: 100%;
+                font-size: .6rem;
+            }
+        }       
+
+        > small {
+            font-size: 0.6rem;
+        }
+    }
+
+    @media(max-width: 411px){
+        width: 100%;
+
+        > span {
+            font-size: 1rem;
+        }
+
+        > h1 {
+            font-size: 2rem;
+
+            > strong {
+                display: inline;
+                font-size: 1.8rem;
+            }
+        }       
+
+        > small {
+            font-size: 0.8rem;
+        }
+    }
 `;

@@ -22,6 +22,19 @@ export const TitleContainer = styled.div<ITitleContainerProps>`
             border-bottom: 10px solid ${props => props.lineColor};
         }
     }
+
+    @media(max-width: 411px){
+        > h1 {
+            font-size: 1.2rem;
+
+            &::after{
+                content: '';
+                display: block;
+                width: 55px;
+                border-bottom: 5px solid ${props => props.lineColor};
+            }
+        }        
+    }
 `;
 
 export const Controllers = styled.div`
